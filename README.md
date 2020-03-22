@@ -54,13 +54,13 @@ Default value is `['gin', 'gist', 'btree', 'hash']`.
 namespace Acme\MyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Intaro\CustomIndexBundle\Annotations as CustomIndexAnnotation
+use Intaro\CustomIndexBundle\Annotations as CustomIndexAnnotation;
 
 /**
  * @ORM\Table(name="my_entity")
  * @ORM\Entity()
  * @CustomIndexAnnotation\CustomIndexes(indexes={
- *     @CustomIndexAnnotation\CustomIndex(columns="my_property1"),
+ *     @CustomIndexAnnotation\CustomIndex(using="gin", columns="my_property1"),
  *     @CustomIndexAnnotation\CustomIndex(columns={"lower(my_property1)", "lower(my_property2)"})
  * })
  */
@@ -94,7 +94,7 @@ Required only `columns` attribute.
 php app/console intaro:doctrine:index:update
 ```
 
-You may use `dump-sql` parameter for dump sql with `DROP/CRATE INDEX` commands
+You may use `dump-sql` parameter for dump sql with `DROP/CREATE INDEX` commands
 
 ```
 php app/console intaro:doctrine:index:update --dump-sql
@@ -103,7 +103,7 @@ php app/console intaro:doctrine:index:update --dump-sql
 ## Some annotation examples
 
 Create index using `pg_trgm` extension:
-```
+```php
 @CustomIndexAnnotation\CustomIndex(columns="lower(my_column) gist_trgm_ops", using="gist")
 ```
 
